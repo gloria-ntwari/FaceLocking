@@ -288,7 +288,8 @@ class FaceDBMatcher:
         if self.mat is None:
             return MatchResult(None, 1.0, 0.0, False)
 
-        sims = self.mat @ emb.reshape(-1, 1)
+        # (N, D) @ (D,) -> (N,) similarity vector
+        sims = self.mat @ emb.reshape(-1)
         i = int(np.argmax(sims))
         sim = float(sims[i])
         dist = 1.0 - sim
